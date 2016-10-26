@@ -17,12 +17,12 @@ var (
 )
 
 func unmarshalManifestSchema2(content []byte) (distribution.Manifest, error) {
-	var m schema2.DeserializedManifest
-	if err := json.Unmarshal(content, &m); err != nil {
+	var deserializedManifest schema2.DeserializedManifest
+	if err := json.Unmarshal(content, &deserializedManifest); err != nil {
 		return nil, err
 	}
 
-	return &m, nil
+	return &deserializedManifest, nil
 }
 
 type manifestSchema2Handler struct {
@@ -33,6 +33,8 @@ type manifestSchema2Handler struct {
 var _ ManifestHandler = &manifestSchema2Handler{}
 
 func (h *manifestSchema2Handler) FillImageMetadata(ctx context.Context, image *imageapi.Image) error {
+	// The manifest.Config references a configuration object for a container by its digest.
+	// It needs to be fetched in order to fill an image object metadata below.
 	configBytes, err := h.repo.Blobs(ctx).Get(ctx, h.manifest.Config.Digest)
 	if err != nil {
 		context.GetLogger(ctx).Errorf("failed to get image config %s: %v", h.manifest.Config.Digest.String(), err)
