@@ -295,6 +295,21 @@ func (p *F5Plugin) HandleEndpoints(eventType watch.EventType,
 				return err
 			}
 		}
+	case watch.Deleted:
+		poolname := poolName(endpoints.Namespace, endpoints.Name)
+		// presumably, the endpoints are a nil subnet now, reset it anyway
+		endpoints.Subsets = nil
+		err := p.updatePool(poolname, endpoints)
+		if err != nil {
+			return err
+		}
+
+		glog.V(4).Infof("Deleting pool %s", poolname)
+
+		err = p.deletePool(poolname)
+		if err != nil {
+			return err
+		}
 	}
 
 	glog.V(4).Infof("Done processing Endpoints for Name: %v.", endpoints.Name)
@@ -549,7 +564,7 @@ func (p *F5Plugin) HandleRoute(eventType watch.EventType,
 		route.Spec.To, route)
 
 	// Name of the pool in F5.
-	poolname := poolName(route.Namespace, route.Name)
+	poolname := poolName(route.Namespace, route.Spec.To.Name)
 
 	// Virtual hostname for policy rule in F5.
 	hostname := route.Spec.Host

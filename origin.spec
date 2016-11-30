@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit 17a6b6bc7a1fa40caf8a60a4bb39057c5f2aee0f
+%global commit d16be8a4482b4e8296a99768f47d69da30676c8b
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.25+17a6b6b-8 OS_GIT_COMMIT=17a6b6b OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.29+d16be8a-6 OS_GIT_COMMIT=d16be8a OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -51,7 +51,7 @@
 Name:           atomic-openshift
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.4.0.26
+Version:        3.4.0.30
 Release:        1%{?dist}
 Summary:        Open Source Container Management by Red Hat
 License:        ASL 2.0
@@ -559,6 +559,53 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Mon Nov 28 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.30
+- Update ose_images.sh - 2016-11-23 (tdawson@redhat.com)
+- UPSTREAM: 36444: Read all resources for finalization and gc, not just
+  preferred (maszulik@redhat.com)
+
+* Wed Nov 23 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.29
+- Merge remote-tracking branch upstream/master, bump origin-web-console 35b920b
+  (tdawson@redhat.com)
+- sdn: garbage-collect dead containers to recover IPAM leases (dcbw@redhat.com)
+- sdn: clean up pod IPAM allocation even if we don't have a netns
+  (dcbw@redhat.com)
+- Update ose_images.sh - 2016-11-18 (tdawson@redhat.com)
+
+* Fri Nov 18 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.28
+- bump(k8s.io/kubernetes): a9e9cf3b407c1d315686c452bdb918c719c3ea6e
+  (agoldste@redhat.com)
+- Fix issues with Godeps.json (agoldste@redhat.com)
+- Cherry-pick of https://github.com/openshift/origin/pull/11940 by @rajatchopra
+  (commit a631fd33a4b6d079cd76951ea5fa082f3960c90c) (bbennett@redhat.com)
+- Fix the command to restart docker on 1.3->1.4 upgrade (danw@redhat.com)
+- Update ose_images.sh - 2016-11-16 (tdawson@redhat.com)
+- Add OVS tests to exclusion list (agoldste@redhat.com)
+- Expand scope of skipping kube federation tests (agoldste@redhat.com)
+- Disable kube garbage collector tests (agoldste@redhat.com)
+- Allow deployment controller to update pods (agoldste@redhat.com)
+
+* Wed Nov 16 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.27
+- oc convert tests (ffranz@redhat.com)
+- Fix SDN startup ordering (again) (danw@redhat.com)
+- UPSTREAM: 36603: fixes handling lists in convert (ffranz@redhat.com)
+- Do not use whoami inside of start scripts (ccoleman@redhat.com)
+- We should not be able to create a route when the host is not specified and
+  wildcardpolicy is enabled. Fixes bug 1392862 -
+  https://bugzilla.redhat.com/show_bug.cgi?id=1392862 Rework as per @liggitt
+  review comments. Fix govet issue. (smitram@gmail.com)
+- Accept docker0 traffic regardless of firewall (danw@redhat.com)
+- updating (cdaley@redhat.com)
+- Force image in test-end-to-end-docker.sh for ose (tdawson@redhat.com)
+- Warn on login when user cannot request projects (jvallejo@redhat.com)
+- Rescue panic (jliggitt@redhat.com)
+- Update ose_images.sh - 2016-11-14 (tdawson@redhat.com)
+- Wait for remote API response before return in UploadFileToContainer
+  (jminter@redhat.com)
+- f5 poolname fix (rchopra@redhat.com)
+- Increase retained CI log size to 100M (agoldste@redhat.com)
+- Fix SRV record lookup for ExternalName service (yhlou@travelsky.com)
+
 * Mon Nov 14 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.26
 - bump(github.com/openshift/origin-web-console):
   3d8c136b9089d687db197eb6c80daf243076c06a (dmcphers+openshiftbot@redhat.com)
