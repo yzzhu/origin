@@ -274,12 +274,12 @@ build_image() {
     #rhpkg container-build --repo http://file.rdu.redhat.com/tdawson/repo/aos-signed-latest.repo >> ${workingdir}/logs/${container}.buildlog 2>&1 &
     echo -n "  Waiting for build to start ."
     sleep 10
-    taskid=`grep 'free -> open' ${workingdir}/logs/${container}.buildlog | awk '{print $1}' | sort -u`
+    taskid=`grep 'Watching tasks' ${workingdir}/logs/${container}.buildlog | awk '{print $1}' | sort -u`
     while [ "${taskid}" == "" ]
     do
       echo -n "."
       sleep 10
-      taskid=`grep 'free -> open' ${workingdir}/logs/${container}.buildlog | awk '{print $1}' | sort -u`
+      taskid=`grep 'Watching tasks' ${workingdir}/logs/${container}.buildlog | awk '{print $1}' | sort -u`
       if grep -q -e "Unknown build target:" -e "buildContainer (noarch) failed" -e "server startup error" ${workingdir}/logs/${container}.buildlog ; then
         echo " error"
         echo "=== ${container} IMAGE BUILD FAILED ==="
@@ -363,24 +363,29 @@ show_git_diffs() {
     fi
     if ! [ "${old_file}" == "" ] ; then
       echo "  ---- Removed Non-Docker files ----"
+      #echo "${old_file}"
+      working_path="${workingdir}/${container}"
       echo "${old_file}" | while read old_file_line
       do
         myold_file=$(echo "${old_file_line}" | awk '{print $4}')
-        # echo "Removing: ${myold_file}"
-        git rm ${myold_file}
+        myold_dir=$(echo "${old_file_line}" | awk '{print $3}' | cut -d':' -f1)
+        myold_dir_file="${myold_dir}/${myold_file}"
+        myold_dir_file_trim="${myold_dir_file#$working_path}"
+        git rm ${myold_dir_file_trim}
       done
     fi
     if ! [ "${new_file}" == "" ] ; then
       echo "  ---- New Non-Docker files ----"
-      #echo " New files must be added by hand - sorry about that"
-      echo "${new_file}"
+      #echo "${new_file}"
       working_path="${workingdir}/${git_path}"
       echo "${new_file}" | while read new_file_line
       do
         mynew_file=$(echo "${new_file_line}" | awk '{print $4}')
-        mynew_file_trim="${mynew_file#$working_path}"
-        cp -rv ${workingdir}/${git_path}/${mynew_file} ${workingdir}/${container}/${mynew_file}
-        git add ${workingdir}/${container}/${mynew_file}
+        mynew_dir=$(echo "${new_file_line}" | awk '{print $3}' | cut -d':' -f1)
+        mynew_dir_file="${mynew_dir}/${mynew_file}"
+        mynew_dir_file_trim="${mynew_dir_file#$working_path}"
+        cp -rv ${working_path}/${mynew_dir_file_trim} ${workingdir}/${container}/${mynew_dir_file_trim}
+        git add ${workingdir}/${container}/${mynew_dir_file_trim}
       done
     fi
   fi
