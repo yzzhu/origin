@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit d16be8a4482b4e8296a99768f47d69da30676c8b
+%global commit 59d51bc1acba11c6375a62b06f0b0ca83456000a
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.29+d16be8a-6 OS_GIT_COMMIT=d16be8a OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.30+59d51bc-16 OS_GIT_COMMIT=59d51bc OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -51,7 +51,7 @@
 Name:           atomic-openshift
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.4.0.30
+Version:        3.4.0.32
 Release:        1%{?dist}
 Summary:        Open Source Container Management by Red Hat
 License:        ASL 2.0
@@ -559,6 +559,32 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Wed Nov 30 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.32
+- Fix a multiple-pointers-to-single-loop-variable bug in EgressNetworkPolicy
+  (danw@redhat.com)
+- Update ose_images.sh - 2016-11-28 (tdawson@redhat.com)
+- Regen swagger spec (agoldste@redhat.com)
+- UPSTREAM: <carry>: Remove DeprecatedDownwardAPIVolumeSource from protobuf
+  (agoldste@redhat.com)
+- Added manifest verification (miminar@redhat.com)
+- Registry: moved manifest schema operations to new files (miminar@redhat.com)
+- UPSTREAM: 36779: fix leaking memory backed volumes of terminated pods
+  (sjenning@redhat.com)
+- UPSTREAM: 37296: Fix skipping - protobuf fields (agoldste@redhat.com)
+
+* Wed Nov 30 2016 Troy Dawson <tdawson@redhat.com>
+- Fix a multiple-pointers-to-single-loop-variable bug in EgressNetworkPolicy
+  (danw@redhat.com)
+- Update ose_images.sh - 2016-11-28 (tdawson@redhat.com)
+- Regen swagger spec (agoldste@redhat.com)
+- UPSTREAM: <carry>: Remove DeprecatedDownwardAPIVolumeSource from protobuf
+  (agoldste@redhat.com)
+- Added manifest verification (miminar@redhat.com)
+- Registry: moved manifest schema operations to new files (miminar@redhat.com)
+- UPSTREAM: 36779: fix leaking memory backed volumes of terminated pods
+  (sjenning@redhat.com)
+- UPSTREAM: 37296: Fix skipping - protobuf fields (agoldste@redhat.com)
+
 * Mon Nov 28 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.30
 - Update ose_images.sh - 2016-11-23 (tdawson@redhat.com)
 - UPSTREAM: 36444: Read all resources for finalization and gc, not just
