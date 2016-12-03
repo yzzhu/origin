@@ -198,6 +198,10 @@ setup_dockerfile() {
   mkdir -p "${container}" &>/dev/null
   pushd ${container} >/dev/null
   wget -q -O Dockerfile http://dist-git.app.eng.bos.redhat.com/cgit/rpms/${container}/plain/Dockerfile?h=${branch} &>/dev/null
+  if ! [ -s Dockerfile ] ; then
+    rm -f Dockerfile
+    wget -q -O Dockerfile http://dist-git.app.eng.bos.redhat.com/cgit/rpms/${container}/plain/Dockerfile.product?h=${branch} &>/dev/null
+  fi
   popd >/dev/null
 }
 
@@ -280,7 +284,7 @@ build_image() {
       echo -n "."
       sleep 10
       taskid=`grep 'Watching tasks' ${workingdir}/logs/${container}.buildlog | awk '{print $1}' | sort -u`
-      if grep -q -e "Unknown build target:" -e "buildContainer (noarch) failed" -e "server startup error" ${workingdir}/logs/${container}.buildlog ; then
+      if grep -q -e "Unknown build target:" -e "buildContainer (noarch) failed" -e "is not a valid repo" -e "server startup error" ${workingdir}/logs/${container}.buildlog ; then
         echo " error"
         echo "=== ${container} IMAGE BUILD FAILED ==="
         mv ${workingdir}/logs/${container}.buildlog ${workingdir}/logs/done/
