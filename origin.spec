@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit 59d51bc1acba11c6375a62b06f0b0ca83456000a
+%global commit 33c0da8df0762ce0a559d33d8a4f60d9a00990bd
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.30+59d51bc-16 OS_GIT_COMMIT=59d51bc OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.32+33c0da8-36 OS_GIT_COMMIT=33c0da8 OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -51,7 +51,7 @@
 Name:           atomic-openshift
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.4.0.32
+Version:        3.4.0.33
 Release:        1%{?dist}
 Summary:        Open Source Container Management by Red Hat
 License:        ASL 2.0
@@ -559,6 +559,38 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Tue Dec 06 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.33
+- Merge remote-tracking branch upstream/master, bump origin-web-console 7468541
+  (tdawson@redhat.com)
+- UPSTREAM: 38137: glusterfs: Fix all gid types to int to prevent failures on
+  32bit systems (obnox@samba.org)
+- UPSTREAM: 37886: glusterfs: implement GID security in the dynamic provisioner
+  (obnox@redhat.com)
+- bump(github.com/heketi/heketi):28b5cc4cc6d2b9bdfa91ed1b93efaab4931aa697
+  (hchiramm@redhat.com)
+- Compare object DN to structured baseDN (jliggitt@redhat.com)
+- UPSTREAM: 37721: Fix logic error in graceful deletion (decarr@redhat.com)
+- Update ose_images.sh - 2016-12-02 (tdawson@redhat.com)
+- Reconcile deleted namespaces out of cluster quota status
+  (jliggitt@redhat.com)
+- UPSTREAM: 36840: Kubelet volume manager fails to reconstruct volume
+  information if global mount path is gone (jsafrane@redhat.com)
+- Consideration of imagePullPolicy on lifecycle hook execution
+  (roy@fullsix.com)
+- Move verify-upstream-commits to a separate make target (maszulik@redhat.com)
+- bump(github.com/docker/distribution): Add oss storage driver
+  (agladkov@redhat.com)
+- Enable oss storage driver (agladkov@redhat.com)
+- bump(gopkg.in/ldap.v2): 8168ee085ee43257585e50c6441aadf54ecb2c9f
+  (jliggitt@redhat.com)
+- Update ose_images.sh - 2016-11-30 (tdawson@redhat.com)
+- Test OAuth state encoding (jliggitt@redhat.com)
+- bump(github.com/RangelReale/osin): 1c1a533224dd9c631fdd8df8851b167d24cabe96
+  (jliggitt@redhat.com)
+- Update Dockerfile.centos7 files (tdawson@redhat.com)
+- Reap OAuthClientAuthorizations (jliggitt@redhat.com)
+- Remove camel-casing on oauth client API calls (jliggitt@redhat.com)
+
 * Wed Nov 30 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.32
 - Fix a multiple-pointers-to-single-loop-variable bug in EgressNetworkPolicy
   (danw@redhat.com)
