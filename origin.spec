@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit 33c0da8df0762ce0a559d33d8a4f60d9a00990bd
+%global commit fd0ce63b9f88f7de23a874563dc98034e798bf79
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.32+33c0da8-36 OS_GIT_COMMIT=33c0da8 OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.33+fd0ce63-7 OS_GIT_COMMIT=fd0ce63 OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -51,7 +51,7 @@
 Name:           atomic-openshift
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.4.0.33
+Version:        3.4.0.34
 Release:        1%{?dist}
 Summary:        Open Source Container Management by Red Hat
 License:        ASL 2.0
@@ -559,6 +559,12 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Fri Dec 09 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.34
+- Merge remote-tracking branch upstream/master, bump origin-web-console ab5ee7d
+  (tdawson@redhat.com)
+- Fix excluder incorrectly creating exclude line. (tdawson@redhat.com)
+- UPSTREAM: 38196: fix mesos unit tests (mkargaki@redhat.com)
+
 * Tue Dec 06 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.33
 - Merge remote-tracking branch upstream/master, bump origin-web-console 7468541
   (tdawson@redhat.com)
