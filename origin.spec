@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit 6e0eaaf5682c5ea04e2a3aca3725371f1bbbc64d
+%global commit 2917f11102f467eca4157462faae758e8d9b42e0
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.34+6e0eaaf-6 OS_GIT_COMMIT=6e0eaaf OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.35+97f6cb1-3 OS_GIT_COMMIT=97f6cb1 OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -51,7 +51,7 @@
 Name:           atomic-openshift
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.4.0.35
+Version:        3.4.0.36
 Release:        1%{?dist}
 Summary:        Open Source Container Management by Red Hat
 License:        ASL 2.0
@@ -559,6 +559,9 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Tue Dec 13 2016 Scott Dodson <sdodson@redhat.com> 3.4.0.36
+- Do not exclude the excluder for atomic-openshift (tdawson@redhat.com)
+
 * Mon Dec 12 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.35
 - UPSTREAM: 38515: validating pod reference before recording an event
   (hchen@redhat.com)
