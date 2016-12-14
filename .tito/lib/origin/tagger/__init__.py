@@ -82,7 +82,7 @@ class OriginTagger(VersionTagger):
         os_git_commit = run_command("bash -c '{0}'".format(cmd))
         cmd = '. ./hack/common.sh ; OS_ROOT=$(pwd) ; os::build::os_version_vars ; echo ${OS_GIT_VERSION}'
         os_git_version = run_command("bash -c '{0}'".format(cmd))
-        os_git_version = os_git_version.replace('-dirty', '')
+        os_git_version = os_git_version.split('-')[0].split('+')[0]
         cmd = '. ./hack/common.sh ; OS_ROOT=$(pwd) ; os::build::os_version_vars ; echo ${OS_GIT_MAJOR}'
         os_git_major = run_command("bash -c '{0}'".format(cmd))
         cmd = '. ./hack/common.sh ; OS_ROOT=$(pwd) ; os::build::os_version_vars ; echo ${OS_GIT_MINOR}'
