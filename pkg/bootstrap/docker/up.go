@@ -86,7 +86,7 @@ var (
 	  %[1]s --image="registry.example.com/origin" --version="v1.1"`)
 
 	imageStreamLocations = map[string]string{
-		"origin centos7 image streams": "examples/image-streams/image-streams-centos7.json",
+		"enterprise rhel7 image streams": "examples/image-streams/image-streams-rhel7.json",
 	}
 	templateLocations = map[string]string{
 		"mongodb":                     "examples/db-templates/mongodb-ephemeral-template.json",
