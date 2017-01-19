@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit 1555695436c7c58db942dced5e1351dc54acd521
+%global commit fb8ee2ca07db45a9de57eb32af41824e4fbf5cff
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.37 OS_GIT_COMMIT=8005e8d OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.39 OS_GIT_COMMIT=fb8ee2c OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -559,6 +559,36 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Thu Jan 19 2017 Troy Dawson <tdawson@redhat.com> 3.4.1.0
+- Bump version to 3.4.1.0 (tdawson@redhat.com)
+- allow proxy values to be specified with non-http git uris
+  (bparees@redhat.com)
+- UPSTREAM: 39493: kubelet: fix nil deref in volume type check
+  (sjenning@redhat.com)
+- Backport: Add a nil check to Container.SecurityContext (bbennett@redhat.com)
+- router: Minimize reloads for removal and filtering (marun@redhat.com)
+- router: Fix detection of initial sync (marun@redhat.com)
+- router: Ensure reload on initial sync (marun@redhat.com)
+- Ensure default ingress cidr is a private range (marun@redhat.com)
+- router: bypass the rate limiter for the initial commit (marun@redhat.com)
+- Fix broken router stress test (marun@redhat.com)
+- Add router option to bind ports only when ready (marun@redhat.com)
+- enable hostpath provisioning (somalley@redhat.com)
+- Disable registry test that compares sha256 checksum of layers due to
+  go1.6/1.7 incompatibility (mfojtik@redhat.com)
+- Fix manifest verification if pullthrough enabled (agladkov@redhat.com)
+- fix for bz1400609; if the node status flips on the order of ip addresses
+  (when there are multiple NICs to report), do not let the SDN chase it
+  (rchopra@redhat.com)
+- updating to use rhel7 image streams by default (cdaley@redhat.com)
+- Use posttrans for docker-excluder (#1404193) (tdawson@redhat.com)
+- HAProxy Router: Add option to use PROXY protocol (miciah.masters@gmail.com)
+- UPSTREAM: 38410: AWS: Recognize ca-central-1 region (decarr@redhat.com)
+- UPSTREAM: 35013: AWS recognize us-east-2 region (decarr@redhat.com)
+- UPSTREAM: 38818: AWS: Add sequential allocator for device names.
+  (gethemant@gmail.com)
+- UPSTREAM: 35013: AWS: recognize us-east-2 region (dhodovsk@redhat.com)
+
 * Mon Dec 19 2016 Troy Dawson <tdawson@redhat.com> 3.4.0.38
 - git_version does not have extra git stuff (tdawson@redhat.com)
 
