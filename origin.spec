@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit fb8ee2ca07db45a9de57eb32af41824e4fbf5cff
+%global commit 505f595d68f3ec90b8abbe2f25f08e4e1641307d
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.0.39 OS_GIT_COMMIT=fb8ee2c OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.1.0 OS_GIT_COMMIT=505f595 OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -51,7 +51,7 @@
 Name:           atomic-openshift
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.4.1.0
+Version:        3.4.1.1
 Release:        1%{?dist}
 Summary:        Open Source Container Management by Red Hat
 License:        ASL 2.0
@@ -559,6 +559,22 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Tue Jan 24 2017 Troy Dawson <tdawson@redhat.com> 3.4.1.1
+- Merge remote-tracking branch upstream/master, bump origin-web-console 01e1cc4
+  (tdawson@redhat.com)
+- Fix build controller performance issues (cewong@redhat.com)
+- Uses patch instead of update to mark nodes (un)schedulable
+  (ffranz@redhat.com)
+- Restore custom etcd prefixes (jliggitt@redhat.com)
+- cluster up: add proxy support (cewong@redhat.com)
+- UPSTREAM: docker/distribution: 2140: Add 'ca-central-1' region for registry
+  S3 storage driver (mfojtik@redhat.com)
+- Implement inscureEdgeTermination options for reencrypt and pasthrough routes
+  reencrypt routes work the same as edge routes with Allow, Redirect, and None
+  (jtanenba@redhat.com)
+- install ceph-common pkg on origin to support rbd provisioning
+  (hchen@redhat.com)
+
 * Thu Jan 19 2017 Troy Dawson <tdawson@redhat.com> 3.4.1.0
 - Bump version to 3.4.1.0 (tdawson@redhat.com)
 - allow proxy values to be specified with non-http git uris
