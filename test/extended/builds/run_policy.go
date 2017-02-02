@@ -179,7 +179,7 @@ var _ = g.Describe("[builds][Slow] using build configuration runPolicy", func() 
 				o.Expect(err).NotTo(o.HaveOccurred())
 			}
 
-			buildWatch, err := oc.Client().Builds(oc.Namespace()).Watch(kapi.ListOptions{
+			buildWatch, err := oc.REST().Builds(oc.Namespace()).Watch(kapi.ListOptions{
 				LabelSelector: buildutil.BuildConfigSelector(bcName),
 			})
 			defer buildWatch.Stop()
