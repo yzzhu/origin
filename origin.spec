@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit 6f48039f541e4ee520ca27d9b2350215f2304e96
+%global commit 658c5cb5ea4333018f11528e20533080af506c4b
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.1.1 OS_GIT_COMMIT=6f48039 OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.1.2 OS_GIT_COMMIT=658c5cb OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -51,7 +51,7 @@
 Name:           atomic-openshift
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.4.1.2
+Version:        3.4.1.3
 Release:        1%{?dist}
 Summary:        Open Source Container Management by Red Hat
 License:        ASL 2.0
@@ -564,6 +564,19 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Thu Feb 02 2017 Jenkins CD Merge Bot <tdawson@redhat.com> 3.4.1.3
+- Merge remote-tracking branch upstream/master, bump origin-web-console 16ebed8
+  (tdawson@redhat.com)
+- provider recorder to attach detach controller (hchen@redhat.com)
+- UPSTREAM: 38515: revert (hchen@redhat.com)
+- start the next serial build immediately after a build is canceled
+  (bparees@redhat.com)
+- Install migration scripts (sdodson@redhat.com)
+- backup and remove keys during migration (sjenning@redhat.com)
+- add migration script to fix etcd paths (sjenning@redhat.com)
+- Added a check to prevent pulling scratch (rymurphy@redhat.com)
+- ipfailover keepalived split brain (pcameron@redhat.com)
+
 * Tue Jan 24 2017 Troy Dawson <tdawson@redhat.com> 3.4.1.2
 - Bug 1415440: Check image history for zero size (mfojtik@redhat.com)
 
