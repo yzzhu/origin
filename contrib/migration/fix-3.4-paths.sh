@@ -99,12 +99,9 @@ echo_mode() {
 }
 
 backup_key() {
-  key="${1}"
-  value="${2}"
-
-  backupfile="${BACKUP_DIR}/${key}"
+  backupfile="${BACKUP_DIR}/${1}"
   mkdir -p "$(dirname "${backupfile}")"
-  echo "$value" > "${backupfile}"
+  echo "${2}" > "${backupfile}"
 }
 
 copy_key() {
