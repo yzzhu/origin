@@ -7,6 +7,7 @@ import (
 
 	"github.com/docker/distribution"
 	"github.com/docker/distribution/context"
+	"github.com/docker/distribution/digest"
 	"github.com/docker/distribution/manifest/schema1"
 	"github.com/docker/distribution/reference"
 	"github.com/docker/libtrust"
@@ -40,7 +41,7 @@ func unmarshalManifestSchema1(content []byte, signatures [][]byte) (distribution
 	if err = json.Unmarshal(content, &sm); err != nil {
 		return nil, err
 	}
-	return &sm, err
+	return &sm, nil
 }
 
 type manifestSchema1Handler struct {
@@ -78,8 +79,10 @@ func (h *manifestSchema1Handler) FillImageMetadata(ctx context.Context, image *i
 			context.GetLogger(ctx).Errorf("failed to stat blob %s of image %s", layer.Name, image.DockerImageReference)
 			return err
 		}
-		if layer.MediaType == "" {
-			if desc.MediaType != "" {
+		// The MediaType appeared in manifest schema v2. We need to fill it
+		// manually in the old images if it is not already filled.
+		if len(layer.MediaType) == 0 {
+			if len(desc.MediaType) > 0 {
 				layer.MediaType = desc.MediaType
 			} else {
 				layer.MediaType = schema1.MediaTypeManifestLayer
@@ -172,4 +175,8 @@ func (h *manifestSchema1Handler) Verify(ctx context.Context, skipDependencyVerif
 		return errs
 	}
 	return nil
+}
+
+func (h *manifestSchema1Handler) Digest() (digest.Digest, error) {
+	return digest.FromBytes(h.manifest.Canonical), nil
 }
