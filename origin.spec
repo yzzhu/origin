@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit a5515be20dbc4ee138784e9fe01462c4d0a4eae6
+%global commit 16503ee2361aa7e187e0be5b5009b4255af625f5
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.1.3 OS_GIT_COMMIT=a5515be OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.1.4 OS_GIT_COMMIT=16503ee OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -51,7 +51,7 @@
 Name:           atomic-openshift
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.4.1.4
+Version:        3.4.1.5
 Release:        1%{?dist}
 Summary:        Open Source Container Management by Red Hat
 License:        ASL 2.0
@@ -564,6 +564,13 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Tue Feb 07 2017 Jenkins CD Merge Bot <tdawson@redhat.com> 3.4.1.5
+- fix migration script (sjenning@redhat.com)
+- Add a status function to excluder (sdodson@redhat.com)
+- fix extended test compilation error introduced in backport
+  (bparees@redhat.com)
+- UPSTREAM: 36827: Fix recycler pod deletion race. (jsafrane@redhat.com)
+
 * Thu Feb 02 2017 Jenkins CD Merge Bot <tdawson@redhat.com> 3.4.1.4
 - Merge remote-tracking branch enterprise-3.4, bump origin-web-console 01e1cc4
   (tdawson@redhat.com)
