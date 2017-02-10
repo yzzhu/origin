@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit d23187ebac64ab85a141c3b1c67f667cfa697c97
+%global commit 419d0919682c72747eb34799163e998c2ff9aba7
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.1.5 OS_GIT_COMMIT=d23187e OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.1.6 OS_GIT_COMMIT=b1eb20f OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -51,7 +51,7 @@
 Name:           atomic-openshift
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.4.1.6
+Version:        3.4.1.7
 Release:        1%{?dist}
 Summary:        Open Source Container Management by Red Hat
 License:        ASL 2.0
@@ -564,6 +564,11 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Fri Feb 10 2017 Troy Dawson <tdawson@redhat.com> 3.4.1.7
+- Fix extended test (miminar@redhat.com)
+- UPSTREAM: google/cadvisor: 1588: disable thin_ls due to excessive iops
+  (decarr@redhat.com)
+
 * Thu Feb 09 2017 Jenkins CD Merge Bot <tdawson@redhat.com> 3.4.1.6
 - Add extended test for manifest migration (agladkov@redhat.com)
 - Migrate manifest from Image when receiving get-request (agladkov@redhat.com)
