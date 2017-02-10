@@ -54,7 +54,7 @@ var _ = g.Describe("[registry][migration] manifest migration from etcd to regist
 		o.Expect(err).NotTo(o.HaveOccurred())
 
 		g.By("checking that the image converted...")
-		image, err := oc.AsAdmin().Client().Images().Get(imageDigest)
+		image, err := oc.AsAdmin().REST().Images().Get(imageDigest)
 		o.Expect(err).NotTo(o.HaveOccurred())
 		o.Expect(len(image.DockerImageManifest)).Should(o.Equal(0))
 		imageMetadataNotEmpty(image)
@@ -68,18 +68,18 @@ var _ = g.Describe("[registry][migration] manifest migration from etcd to regist
 		o.Expect(len(manifest)).Should(o.BeNumerically(">", 0))
 
 		g.By("restoring manifest...")
-		image, err = oc.AsAdmin().Client().Images().Get(imageDigest)
+		image, err = oc.AsAdmin().REST().Images().Get(imageDigest)
 		o.Expect(err).NotTo(o.HaveOccurred())
 		imageMetadataNotEmpty(image)
 
 		image.DockerImageManifest = string(manifest)
 
-		newImage, err := oc.AsAdmin().Client().Images().Update(image)
+		newImage, err := oc.AsAdmin().REST().Images().Update(image)
 		o.Expect(err).NotTo(o.HaveOccurred())
 		imageMetadataNotEmpty(newImage)
 
 		g.By("checking that the manifest is present in the image...")
-		image, err = oc.AsAdmin().Client().Images().Get(imageDigest)
+		image, err = oc.AsAdmin().REST().Images().Get(imageDigest)
 		o.Expect(err).NotTo(o.HaveOccurred())
 		o.Expect(len(image.DockerImageManifest)).Should(o.BeNumerically(">", 0))
 		o.Expect(image.DockerImageManifest).Should(o.Equal(string(manifest)))
@@ -95,7 +95,7 @@ var _ = g.Describe("[registry][migration] manifest migration from etcd to regist
 		o.Expect(err).NotTo(o.HaveOccurred())
 
 		g.By("checking that the manifest was removed from the image...")
-		image, err = oc.AsAdmin().Client().Images().Get(imageDigest)
+		image, err = oc.AsAdmin().REST().Images().Get(imageDigest)
 		o.Expect(err).NotTo(o.HaveOccurred())
 		o.Expect(len(image.DockerImageManifest)).Should(o.Equal(0))
 		imageMetadataNotEmpty(image)
@@ -131,7 +131,7 @@ func imageMetadataNotEmpty(image *imageapi.Image) {
 
 func waitForImageUpdate(oc *exutil.CLI, image *imageapi.Image) error {
 	return wait.Poll(200*time.Millisecond, 2*time.Minute, func() (bool, error) {
-		newImage, err := oc.AsAdmin().Client().Images().Get(image.Name)
+		newImage, err := oc.AsAdmin().REST().Images().Get(image.Name)
 		if err != nil {
 			return false, err
 		}
@@ -144,14 +144,14 @@ func waitForImageUpdate(oc *exutil.CLI, image *imageapi.Image) error {
 // namespaces. It also deletes shared projects.
 func deleteTestImages(oc *exutil.CLI) {
 	g.By(fmt.Sprintf("Deleting images and image streams in project %q", oc.Namespace()))
-	iss, err := oc.AdminClient().ImageStreams(oc.Namespace()).List(kapi.ListOptions{})
+	iss, err := oc.AdminREST().ImageStreams(oc.Namespace()).List(kapi.ListOptions{})
 	if err != nil {
 		return
 	}
 	for _, is := range iss.Items {
 		for _, history := range is.Status.Tags {
 			for i := range history.Items {
-				oc.AdminClient().Images().Delete(history.Items[i].Image)
+				oc.AdminREST().Images().Delete(history.Items[i].Image)
 			}
 		}
 	}
