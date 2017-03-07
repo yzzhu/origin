@@ -21,12 +21,12 @@
 # %commit and %os_git_vars are intended to be set by tito custom builders provided
 # in the .tito/lib directory. The values in this spec file will not be kept up to date.
 %{!?commit:
-%global commit bb2373273b2c7962b681124dad51c58d43ef80a1
+%global commit 49d8676ac652ccdada5d7a47cfd672c447bb1beb
 }
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 # os_git_vars needed to run hack scripts during rpm builds
 %{!?os_git_vars:
-%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.1.8 OS_GIT_COMMIT=bb23732 OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
+%global os_git_vars OS_GIT_TREE_STATE=clean OS_GIT_VERSION=v3.4.1.9 OS_GIT_COMMIT=49d8676 OS_GIT_MAJOR=3 OS_GIT_MINOR=4+
 }
 
 %{!?make_redistributable:
@@ -51,7 +51,7 @@
 Name:           atomic-openshift
 # Version is not kept up to date and is intended to be set by tito custom
 # builders provided in the .tito/lib directory of this project
-Version:        3.4.1.9
+Version:        3.4.1.10
 Release:        1%{?dist}
 Summary:        Open Source Container Management by Red Hat
 License:        ASL 2.0
@@ -564,6 +564,13 @@ fi
 /usr/sbin/%{name}-docker-excluder unexclude
 
 %changelog
+* Tue Mar 07 2017 Jenkins CD Merge Bot <tdawson@redhat.com> 3.4.1.10
+- make ciphers/tls version configurable (jliggitt@redhat.com)
+- disable broken poddisruption budget test (bparees@redhat.com)
+- bump(github.com/openshift/source-to-image):
+  ebe28eafd63b691ccd917dcad1af1c0e5ba15abd (bparees@redhat.com)
+- Update Vagrantfile (dmcphers@redhat.com)
+
 * Thu Mar 02 2017 Jenkins CD Merge Bot <tdawson@redhat.com> 3.4.1.9
 - Existing images are tagged with correct reference on push
   (miminar@redhat.com)
