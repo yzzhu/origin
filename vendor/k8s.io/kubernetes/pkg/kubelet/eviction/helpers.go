@@ -664,6 +664,25 @@ func thresholdsMet(thresholds []Threshold, observations signalObservations, enfo
 	return results
 }
 
+func debugLogObservations(logPrefix string, observations signalObservations) {
+	for k, v := range observations {
+		glog.V(3).Infof("eviction manager: %v: signal=%v, available: %v, capacity: %v", logPrefix, k, v.available, v.capacity)
+	}
+}
+
+func debugLogThresholdsWithObservation(logPrefix string, thresholds []Threshold, observations signalObservations) {
+	for i := range thresholds {
+		threshold := thresholds[i]
+		observed, found := observations[threshold.Signal]
+		if found {
+			quantity := getThresholdQuantity(threshold.Value, observed.capacity)
+			glog.V(3).Infof("eviction manager: %v: threshold [signal=%v, quantity=%v] observed %v", logPrefix, threshold.Signal, quantity, observed.available)
+		} else {
+			glog.V(3).Infof("eviction manager: %v: threshold [signal=%v] had no observation", logPrefix, threshold.Signal)
+		}
+	}
+}
+
 // getThresholdQuantity returns the expected quantity value for a thresholdValue
 func getThresholdQuantity(value ThresholdValue, capacity *resource.Quantity) *resource.Quantity {
 	if value.Quantity != nil {
