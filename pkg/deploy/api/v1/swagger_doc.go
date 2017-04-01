@@ -166,10 +166,11 @@ func (DeploymentLogOptions) SwaggerDoc() map[string]string {
 }
 
 var map_DeploymentRequest = map[string]string{
-	"":       "DeploymentRequest is a request to a deployment config for a new deployment.",
-	"name":   "Name of the deployment config for requesting a new deployment.",
-	"latest": "Latest will update the deployment config with the latest state from all triggers.",
-	"force":  "Force will try to force a new deployment to run. If the deployment config is paused, then setting this to true will return an Invalid error.",
+	"":                "DeploymentRequest is a request to a deployment config for a new deployment.",
+	"name":            "Name of the deployment config for requesting a new deployment.",
+	"latest":          "Latest will update the deployment config with the latest state from all triggers.",
+	"force":           "Force will try to force a new deployment to run. If the deployment config is paused, then setting this to true will return an Invalid error.",
+	"excludeTriggers": "ExcludeTriggers instructs the instantiator to avoid processing the specified triggers. This field overrides the triggers from latest and allows clients to control specific logic. This field is ignored if not specified.",
 }
 
 func (DeploymentRequest) SwaggerDoc() map[string]string {

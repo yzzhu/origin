@@ -268,6 +268,11 @@ message DeploymentRequest {
   // Force will try to force a new deployment to run. If the deployment config is paused,
   // then setting this to true will return an Invalid error.
   optional bool force = 3;
+
+  // ExcludeTriggers instructs the instantiator to avoid processing the specified triggers.
+  // This field overrides the triggers from latest and allows clients to control specific
+  // logic. This field is ignored if not specified.
+  repeated string excludeTriggers = 4;
 }
 
 // DeploymentStrategy describes how to perform a deployment.

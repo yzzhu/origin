@@ -357,6 +357,15 @@ func DeepCopy_v1_DeploymentRequest(in interface{}, out interface{}, c *conversio
 		out.Name = in.Name
 		out.Latest = in.Latest
 		out.Force = in.Force
+		if in.ExcludeTriggers != nil {
+			in, out := &in.ExcludeTriggers, &out.ExcludeTriggers
+			*out = make([]DeploymentTriggerType, len(*in))
+			for i := range *in {
+				(*out)[i] = (*in)[i]
+			}
+		} else {
+			out.ExcludeTriggers = nil
+		}
 		return nil
 	}
 }
