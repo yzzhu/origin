@@ -15,6 +15,10 @@ import (
 // DeploymentTriggerController processes all triggers for a deployment config
 // and kicks new deployments whenever possible.
 type DeploymentTriggerController struct {
+	// triggerFromImages is true if image changes should be processed by the instantiate
+	// endpoint
+	triggerFromImages bool
+
 	// dn is used to update deployment configs.
 	dn osclient.DeploymentConfigsNamespacer
 
@@ -44,6 +48,9 @@ func (c *DeploymentTriggerController) Handle(config *deployapi.DeploymentConfig)
 		Name:   config.Name,
 		Latest: true,
 		Force:  false,
+	}
+	if !c.triggerFromImages {
+		request.ExcludeTriggers = []deployapi.DeploymentTriggerType{deployapi.DeploymentTriggerOnImageChange}
 	}
 
 	_, err := c.dn.DeploymentConfigs(config.Namespace).Instantiate(request)
