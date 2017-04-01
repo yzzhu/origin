@@ -232,10 +232,15 @@ os::build::internal::build_binaries() {
       local platform_gotags_test_envvar=OS_GOFLAGS_TAGS_TEST_$(os::build::platform_arch ${platform})
 
       if [[ ${#nonstatics[@]} -gt 0 ]]; then
+        # work around https://github.com/golang/go/issues/11887
+        local_ldflags=$version_ldflags
+        if [[ "${platform}" == "darwin/amd64" ]]; then
+          local_ldflags+=" -s"
+        fi
         GOOS=${platform%/*} GOARCH=${platform##*/} go install \
           -pkgdir "${OS_OUTPUT_PKGDIR}/${platform}" \
           -tags "${OS_GOFLAGS_TAGS-} ${!platform_gotags_envvar:-}" \
-          -ldflags "${version_ldflags}" \
+          -ldflags="${local_ldflags}" \
           "${goflags[@]:+${goflags[@]}}" \
           "${nonstatics[@]}"
 
