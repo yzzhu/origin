@@ -27,9 +27,9 @@ func main() {
 	if len(os.Getenv("GOMAXPROCS")) == 0 {
 		runtime.GOMAXPROCS(runtime.NumCPU())
 	}
-
-	basename := filepath.Base(os.Args[0])
-	command := openshift.CommandFor(basename)
+	
+	basename := filepath.Base(os.Args[0]) //获取可执行文件名
+	command := openshift.CommandFor(basename) //根据对应的可执行文件名执行相应方法
 	if err := command.Execute(); err != nil {
 		os.Exit(1)
 	}
