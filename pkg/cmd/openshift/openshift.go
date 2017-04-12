@@ -87,6 +87,7 @@ func CommandFor(basename string) *cobra.Command {
 	case "origin", "atomic-enterprise":
 		cmd = NewCommandOpenShift(basename)
 	default:
+		//构造openshift的cobra.Command
 		cmd = NewCommandOpenShift("openshift")
 	}
 
@@ -99,6 +100,7 @@ func CommandFor(basename string) *cobra.Command {
 }
 
 // NewCommandOpenShift creates the standard OpenShift command
+//cobra用于创建标准cli程序命令行提示
 func NewCommandOpenShift(name string) *cobra.Command {
 	in, out, errout := os.Stdin, os.Stdout, os.Stderr
 
@@ -110,7 +112,7 @@ func NewCommandOpenShift(name string) *cobra.Command {
 	}
 
 	f := clientcmd.New(pflag.NewFlagSet("", pflag.ContinueOnError))
-
+	// NewCommandStartAllInOne provides a CLI handler for 'start' command
 	startAllInOne, _ := start.NewCommandStartAllInOne(name, out)
 	root.AddCommand(startAllInOne)
 	root.AddCommand(admin.NewCommandAdmin("admin", name+" admin", in, out, errout))
@@ -140,6 +142,7 @@ func NewCommandOpenShift(name string) *cobra.Command {
 	root.AddCommand(cmd.NewCmdOptions(out))
 
 	// TODO: add groups
+	// ActsAsRootCommand displays command usage using a root command usage template
 	templates.ActsAsRootCommand(root, []string{"options"})
 
 	return root
